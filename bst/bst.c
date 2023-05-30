@@ -24,6 +24,46 @@ arvore inserir_bst(int valor, arvore raiz){
 
 }
 
+arvore remover_bst(arvore raiz, int valor) {
+    //Remover de uma (sub)árvore vazia / remover elemento inexistente
+    if(raiz == NULL) {
+        return raiz;
+    }
+    //Encontrou o elemento
+    if(raiz->valor == valor) {
+        //Verificação de 0 filhos, 1 filho, 2 filhos
+        //caso 1 - zero filhos
+        if(raiz->esq == NULL && raiz->dir == NULL) {
+            free(raiz);
+            return NULL;
+        }
+        //caso 2 (a): exatamente um filho esquerdo
+        if(raiz->esq != NULL && raiz->dir == NULL) {
+            arvore aux = raiz->esq;
+            free(raiz);
+            return aux;
+        }
+
+        //caso 2 (b): exatamente um filho direito
+
+        //caso 3: dois filhos
+        //não precisa de if
+
+        int maiorValorSubarvoreEsquerda = maior(raiz->esq)->valor;
+        raiz->valor = maiorValorSubarvoreEsquerda;
+        raiz->esq = remover_bst(raiz->esq, maiorValorSubarvoreEsquerda);
+
+        return raiz;
+    }
+    if(valor > raiz->valor) {
+       raiz->dir = remover_bst(raiz->dir, valor);
+    } else {
+        //simétrico
+    }
+    return raiz;
+}
+
+
 void pre_order_bst(arvore raiz){
     if(raiz != NULL){
         //processar a raiz relativa
